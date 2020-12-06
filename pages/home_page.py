@@ -14,6 +14,7 @@ class HomePage(BasePage):
     divide_selector = (MobileBy.ACCESSIBILITY_ID, "divide")
     equals_selector = (MobileBy.ACCESSIBILITY_ID, "equals")
     result_selector = (MobileBy.ID, "result_final")
+    result_preview_selector = (MobileBy.ID, "result_final")
     clear_selector = (MobileBy.ACCESSIBILITY_ID, "clear")
     panel_arrow_selector = (MobileBy.ID, "arrow")
 
@@ -45,6 +46,11 @@ class HomePage(BasePage):
         result_value = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.result_selector)).text
         self.driver.find_element(*self.result_selector).clear()
         return result_value
+    
+    def get_preview_result(self):
+        result_preview_value = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.result_preview_selector)).text
+        self.driver.find_element((*self.result_preview_selector).clear()
+        return result_preview_value
 
     def digit_locator(self, value):
         selector = (MobileBy.ID, f"digit_{value}")

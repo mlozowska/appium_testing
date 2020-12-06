@@ -8,13 +8,14 @@ from appium_day.pages.base_page import BasePage
 
 class HomePage(BasePage):
 
-    plus_selector = (MobileBy.ACCESSIBILITY_ID, "plus")
+   plus_selector = (MobileBy.ACCESSIBILITY_ID, "plus")
     minus_selector = (MobileBy.ACCESSIBILITY_ID, "minus")
     multiply_selector = (MobileBy.ACCESSIBILITY_ID, "multiply")
     divide_selector = (MobileBy.ACCESSIBILITY_ID, "divide")
     equals_selector = (MobileBy.ACCESSIBILITY_ID, "equals")
     result_selector = (MobileBy.ID, "result_final")
-    result_preview_selector = (MobileBy.ID, "result_final")
+    result_preview_selector = (MobileBy.ID, "result_preview")
+    sqrt_selector = (MobileBy.ACCESSIBILITY_ID, "square root")
     clear_selector = (MobileBy.ACCESSIBILITY_ID, "clear")
     panel_arrow_selector = (MobileBy.ID, "arrow")
 
@@ -38,18 +39,25 @@ class HomePage(BasePage):
 
     def div_numbers(self, a, b):
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.digit_locator(a))).click()
-        self.driver.find_element(*self.result_selector).click()
+        self.driver.find_element(*self.divide_selector).click()
         self.driver.find_element(*self.digit_locator(b)).click()
+        self.driver.find_element(*self.equals_selector).click()
+
+    def sqrt_number(self, a):
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.panel_arrow_selector)).click()
+        self.driver.find_element(*self.sqrt_selector).click()
+        self.driver.find_element(*self.panel_arrow_selector).click()
+        self.driver.find_element(*self.digit_locator(a)).click()
         self.driver.find_element(*self.equals_selector).click()
 
     def get_result(self):
         result_value = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.result_selector)).text
         self.driver.find_element(*self.result_selector).clear()
         return result_value
-    
+
     def get_preview_result(self):
         result_preview_value = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.result_preview_selector)).text
-        self.driver.find_element((*self.result_preview_selector).clear()
+        self.driver.find_element(*self.result_preview_selector).clear()
         return result_preview_value
 
     def digit_locator(self, value):
@@ -62,4 +70,6 @@ class HomePage(BasePage):
         TouchAction(self.driver).tap(None, screen_size['width'] - 1, screen_size['height'] - 1, 1).perform()
 
     def close_expert_panel(self):
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.panel_arrow_selector)).click()
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.panel_arrow_selector)).click() 
+    
+  
